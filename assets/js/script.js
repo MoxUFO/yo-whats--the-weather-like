@@ -1,22 +1,39 @@
-let locationButton = document.getElementById('button-parent')
-let upcomingweather = document.getElementById('card-parent')
-let locationSearch = document.getElementById('location-input')
-let saveLocationBtn = document.getElementById('submit-button')
-let storedLocation = [] 
+let locationButton = document.getElementById("button-parent");
+let upcomingweather = document.getElementById("card-parent");
 
-
-function saveCity(event){
-event.preventDefault()
-
-let locationQuery = locationSearch.value
-storedLocation.push(locationQuery)
-console.log(storedLocation)
-localStorage.setItem('query', storedLocation)
-
+function handleFormSubmit(event) {
+  event.preventDefault();  
+  let locationQuery = document.getElementById("location-input").value.trim()
+  if(!locationQuery){
+    return
+  }
+  getCoordinates(locationQuery)
 }
-// console.log(storedCity)
-// for (let i = 0; i< localStorage.length; i++) {
 
-//   console.log(localStorage.city)
-// }
-saveLocationBtn.addEventListener("click", saveCity)
+function saveCity(city){
+  let storedLocation = JSON.parse(localStorage.getItem("query"));
+  if (!storedLocation) {
+    storedLocation = [];
+  }
+  storedLocation.push(city);
+  localStorage.setItem("query", JSON.stringify(storedLocation));
+}
+
+function displayHistory() {
+  let storedLocation = JSON.parse(localStorage.getItem("query"));
+  if(!storedLocation){
+    return
+  }
+  for (let i = 0; i < storedLocation.length; i++) {
+    let pastSearchBtn = document.createElement("button");
+    pastSearchBtn.classList.add("btn", "btn-primary");
+    pastSearchBtn.textContent = storedLocation[i];
+    locationButton.append(pastSearchBtn);
+  }
+}
+
+
+
+document.getElementById("submit-button").addEventListener("click", handleFormSubmit);
+displayHistory();
+
