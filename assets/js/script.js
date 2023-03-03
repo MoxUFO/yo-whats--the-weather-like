@@ -1,5 +1,6 @@
 let locationButton = document.getElementById("button-parent");
 let upcomingweather = document.getElementById("card-parent");
+let currentWeather = document.getElementById('current-day')
 
 function handleFormSubmit(event) {
   event.preventDefault();  
@@ -7,7 +8,7 @@ function handleFormSubmit(event) {
   if(!locationQuery){
     return
   }
-  getCoordinates(locationQuery)
+  getCoordinates(locationQuery) 
 }
 
 function saveCity(city){
@@ -17,6 +18,8 @@ function saveCity(city){
   }
   storedLocation.push(city);
   localStorage.setItem("query", JSON.stringify(storedLocation));
+  locationButton.textContent = ""
+  displayHistory()
 }
 
 function displayHistory() {
@@ -51,21 +54,50 @@ function getCoordinates(city) {
         usCity = data[0]
       }
       saveCity(usCity.name)
+      searchCurrentWeather(usCity.lat, usCity.lon)
       searchForecast(usCity.lat, usCity.lon)
     });
 }
 
-function searchForecast(lat,lon) {
+function searchCurrentWeather(lat,lon) {
   console.log(lat, lon)
-  let queryUrl = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=c8cc486e034609223b1c1970df0b8ef2";
-  //  lat={lat}&lon={lon}
-  let apiKey = "&appid=c8cc486e034609223b1c1970df0b8ef2";
+  let queryUrl = "http://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" + lat + "&lon=" + lon + "&appid=c8cc486e034609223b1c1970df0b8ef2";
   fetch(queryUrl)
   .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-    console.log(data)
+      // console.log(data.weather[0].icon)
+      
+      let bigDate = document.createElement('h5')
+      let bigIcon = document.createElement('i')
+      bigIcon.textContent = data.weather[0].icon
+      currentWeather.append(bigIcon)
+      let bigTemp = document.createElement('h6')
+      bigTemp.textContent = "Today's Temp: " + data.main.temp
+      currentWeather.append(bigTemp)
+      let bigWind = document.createElement('h6')
+      bigWind.textContent = "today's Wind Speed: " + data.wind.speed
+      currentWeather.append(bigWind)
+      let bigHumid = document.createElement('h6')
+      bigHumid.textContent = "today's Humidity: " + data.main.humidity + " %"
+      currentWeather.append(bigHumid)
+
+
+    })
+}
+
+function searchForecast(lat,lon) {
+  console.log(lat, lon)
+  let queryUrl = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=44.34&lon=10.99&cnt=7&appid=c8cc486e034609223b1c1970df0b8ef2";
+  fetch(queryUrl)
+  .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data)
+
+
     })
 }
 
