@@ -8,6 +8,7 @@ function handleFormSubmit(event) {
   if(!locationQuery){
     return
   }
+  saveCity(locationQuery)
   getCoordinates(locationQuery) 
 }
 
@@ -59,7 +60,7 @@ function getCoordinates(city) {
       if(usCity == undefined){
         usCity = data[0]
       }
-      saveCity(usCity.name)
+      
       searchCurrentWeather(usCity.lat, usCity.lon)
       searchForecast(usCity.lat, usCity.lon)
     });
