@@ -32,7 +32,13 @@ function displayHistory() {
     pastSearchBtn.classList.add("btn", "btn-primary");
     pastSearchBtn.textContent = storedLocation[i];
     locationButton.append(pastSearchBtn);
+    pastSearchBtn.addEventListener('click', presentLastSearch)
   }
+}
+
+function presentLastSearch(event){
+  let reuseCity = event.target.textContent
+  getCoordinates(reuseCity)
 }
 
 function getCoordinates(city) {
@@ -67,8 +73,7 @@ function searchCurrentWeather(lat,lon) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data.weather[0].icon)
-      
+      console.log(data.weather[0].icon) 
       let bigDate = document.createElement('h5')
       let bigIcon = document.createElement('i')
       bigIcon.textContent = data.weather[0].icon
@@ -112,7 +117,7 @@ function searchForecast(lat,lon) {
        let smallWind = document.createElement('div')
        smallWind.textContent = 'wind speed: ' + forecastArr[i].wind_speed
        let smallHumid = document.createElement('div')
-       smallHumid.textContent = 'humidity: ' + forecastArr[i].humidity
+       smallHumid.textContent = 'humidity: ' + forecastArr[i].humidity + ' %'
        cardBody.append(smallDate)
        cardBody.append(smallIcon)
        cardBody.append(smallTemp)
@@ -120,10 +125,7 @@ function searchForecast(lat,lon) {
        cardBody.append(smallHumid)
        theCard.append(cardBody)
        upcomingweather.append(theCard)
-
      }
-
-
     })
 }
 
