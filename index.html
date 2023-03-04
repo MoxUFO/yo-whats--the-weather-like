@@ -14,26 +14,32 @@
     <h1 class="text-center">5 Day Forecast</h1>
   </header>
   <main class="row">
-    <div class=" col-4">
+    <div class=" col-3">
       <input class="form-control form-control-lg" type="text" placeholder="Location" id="location-input">
       <div class="d-grid gap-2">
-      <button class="btn btn-primary" type="button" id="submit-button">Button</button>
+      <button class="btn btn-primary" type="button" id="submit-button">Search</button>
       <hr>
       <div id="button-parent" class="d-grid gap-2"></div>
     </div>
     </div>
-  <div class="col-7">
+  <div class="col-8">
       <div class="card-body">
         <div class="card">
           <div class="card-body" id="current-day">
             <h5 class="card-title">date</h5>
           </div>
         </div>
-        <div>5 Day Forecast</div>
-        <div id="card-parent"></div>
-      </div>
+        <div class="col-12">5 Day Forecast</div>
+        <div class="row grid gap-0 column-gap-3 ms-1" id="card-parent">
+       
+        </div>
+        
+       </div>
+
+       
+  </div>
   
-      </div>
+      
   
  
   </main>

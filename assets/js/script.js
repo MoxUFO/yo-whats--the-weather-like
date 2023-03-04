@@ -67,7 +67,7 @@ function searchCurrentWeather(lat,lon) {
       return response.json();
     })
     .then(function (data) {
-      // console.log(data.weather[0].icon)
+      console.log(data.weather[0].icon)
       
       let bigDate = document.createElement('h5')
       let bigIcon = document.createElement('i')
@@ -89,13 +89,39 @@ function searchCurrentWeather(lat,lon) {
 
 function searchForecast(lat,lon) {
   console.log(lat, lon)
-  let queryUrl = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=44.34&lon=10.99&cnt=7&appid=c8cc486e034609223b1c1970df0b8ef2";
+  let queryUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat +'&lon=' + lon + '&Appid=d788f32e8b9da745fbd42aba6ed8176a&units=imperial' 
   fetch(queryUrl)
   .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data)
+      // console.log(data.daily)
+      let forecastArr = data.daily
+      for (let i = 0; i < 5; i++) {
+        console.log(forecastArr[i] )
+       let theCard = document.createElement('div')
+       theCard.classList.add('card', 'col-2')
+       let cardBody = document.createElement('div')
+       cardBody.classList.add('card-body')
+       let smallDate = document.createElement('h5')
+       smallDate.textContent = 'Date: '
+       let smallIcon = document.createElement('div')
+       smallIcon.textContent = forecastArr[i].weather[0].icon
+       let smallTemp = document.createElement('div')
+       smallTemp.textContent = 'Temp: ' + forecastArr[i].temp.day
+       let smallWind = document.createElement('div')
+       smallWind.textContent = 'wind speed: ' + forecastArr[i].wind_speed
+       let smallHumid = document.createElement('div')
+       smallHumid.textContent = 'humidity: ' + forecastArr[i].humidity
+       cardBody.append(smallDate)
+       cardBody.append(smallIcon)
+       cardBody.append(smallTemp)
+       cardBody.append(smallWind)
+       cardBody.append(smallHumid)
+       theCard.append(cardBody)
+       upcomingweather.append(theCard)
+
+     }
 
 
     })
