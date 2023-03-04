@@ -8,11 +8,14 @@ function handleFormSubmit(event) {
   if(!locationQuery){
     return
   }
+  console
+  
+  getCoordinates(locationQuery)
   saveCity(locationQuery)
-  getCoordinates(locationQuery) 
 }
 
 function saveCity(city){
+ 
   let storedLocation = JSON.parse(localStorage.getItem("query"));
   if (!storedLocation) {
     storedLocation = [];
@@ -60,8 +63,9 @@ function getCoordinates(city) {
       if(usCity == undefined){
         usCity = data[0]
       }
-      
+     
       searchCurrentWeather(usCity.lat, usCity.lon)
+      currentWeather.innerHTML = " ";
       searchForecast(usCity.lat, usCity.lon)
     });
 }
@@ -90,6 +94,7 @@ function searchCurrentWeather(lat,lon) {
       currentWeather.append(bigHumid)
 
 
+      upcomingweather.innerHTML = " ";
     })
 }
 
