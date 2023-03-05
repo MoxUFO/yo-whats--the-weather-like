@@ -1,6 +1,9 @@
 let locationButton = document.getElementById("button-parent");
 let upcomingweather = document.getElementById("card-parent");
-let currentWeather = document.getElementById('current-day')
+let currentWeather = document.getElementById('current-day');
+let displayDate = document.getElementById('display-date')
+
+displayDate.textContent =dayjs().format("dddd, MMMM D YYYY");
 
 function handleFormSubmit(event) {
   event.preventDefault();  
@@ -12,6 +15,7 @@ function handleFormSubmit(event) {
   
   getCoordinates(locationQuery)
   saveCity(locationQuery)
+    
 }
 
 function saveCity(city){
@@ -33,10 +37,11 @@ function displayHistory() {
   }
   for (let i = 0; i < storedLocation.length; i++) {
     let pastSearchBtn = document.createElement("button");
-    pastSearchBtn.classList.add("btn", "btn-primary");
+    pastSearchBtn.classList.add("btn",'btn-outline-info');
     pastSearchBtn.textContent = storedLocation[i];
     locationButton.append(pastSearchBtn);
     pastSearchBtn.addEventListener('click', presentLastSearch)
+   
   }
 }
 
@@ -54,7 +59,9 @@ function getCoordinates(city) {
     })
     .then(function (data) {
       if (data.length == 0) {
-        alert("please enter a valid city name");
+        // alert("please enter a valid city name");
+        console.log(locationButton.children[8])
+    
         return;
       }
       var usCity = data.find(function(element){
@@ -71,17 +78,20 @@ function getCoordinates(city) {
 }
 
 function searchCurrentWeather(lat,lon) {
-  console.log(lat, lon)
+  // console.log(lat, lon)
   let queryUrl = "http://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" + lat + "&lon=" + lon + "&appid=c8cc486e034609223b1c1970df0b8ef2";
   fetch(queryUrl)
   .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data.weather[0].icon) 
+      // console.log(data.weather[0].icon) 
+      let currentDate = dayjs().format("dddd, MMMM D YYYY")
       let bigDate = document.createElement('h5')
-      let bigIcon = document.createElement('i')
-      bigIcon.textContent = data.weather[0].icon
+      bigDate.textContent = currentDate
+      currentWeather.append(bigDate)
+      let bigIcon = document.createElement('img')
+      bigIcon.setAttribute('src',"https://openweathermap.org/img/wn/" + data.weather[0].icon + ".png" )
       currentWeather.append(bigIcon)
       let bigTemp = document.createElement('h6')
       bigTemp.textContent = "Today's Temp: " + data.main.temp
@@ -92,6 +102,14 @@ function searchCurrentWeather(lat,lon) {
       let bigHumid = document.createElement('h6')
       bigHumid.textContent = "today's Humidity: " + data.main.humidity + " %"
       currentWeather.append(bigHumid)
+      currentWeather.classList.add()
+
+      
+      setInterval(function () {
+        ;
+        
+      }, 1000);
+
 
 
       upcomingweather.innerHTML = " ";
@@ -99,7 +117,7 @@ function searchCurrentWeather(lat,lon) {
 }
 
 function searchForecast(lat,lon) {
-  console.log(lat, lon)
+  // console.log(lat, lon)
   let queryUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat +'&lon=' + lon + '&Appid=d788f32e8b9da745fbd42aba6ed8176a&units=imperial' 
   fetch(queryUrl)
   .then(function (response) {
@@ -109,15 +127,17 @@ function searchForecast(lat,lon) {
       // console.log(data.daily)
       let forecastArr = data.daily
       for (let i = 0; i < 5; i++) {
-        console.log(forecastArr[i] )
+        let upComingDate = dayjs().fromNow()
+        console.log(upComingDate )
        let theCard = document.createElement('div')
-       theCard.classList.add('card', 'col-2')
+       theCard.classList.add('card', 'col-2', 'bg-dark-subtle')
        let cardBody = document.createElement('div')
        cardBody.classList.add('card-body')
-       let smallDate = document.createElement('h5')
-       smallDate.textContent = 'Date: '
-       let smallIcon = document.createElement('div')
-       smallIcon.textContent = forecastArr[i].weather[0].icon
+       
+       let smallDate = document.createElement('h4')
+       smallDate.textContent = upComingDate
+       let smallIcon = document.createElement('img')
+       smallIcon.setAttribute('src',"https://openweathermap.org/img/wn/" + forecastArr[i].weather[0].icon + ".png" )
        let smallTemp = document.createElement('div')
        smallTemp.textContent = 'Temp: ' + forecastArr[i].temp.day
        let smallWind = document.createElement('div')

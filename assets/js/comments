@@ -1,15 +1,16 @@
-http://api.openweathermap.org/data/2.5/forecast url for current weather
+// http://api.openweathermap.org/data/2.5/forecast url for current weather
 
- setInterval(function () {
-    $("#currentDay").text(dayjs().format("dddd, MMMM D"));
-  }, 1000);
-});
+//  setInterval(function () {
+//     $("#currentDay").text(dayjs().format("dddd, MMMM D"));
+//   }, 1000);
+// });
 
-"http://api.openweathermap.org/data/2.5/forecast/?units=imperial&lat=" + lat + "&lon=" + lon + "&cnt=5&appid=c8cc486e034609223b1c1970df0b8ef2"
+// "http://api.openweathermap.org/data/2.5/forecast/?units=imperial&lat=" + lat + "&lon=" + lon + "&cnt=5&appid=c8cc486e034609223b1c1970df0b8ef2"
 
-api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
+// api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
 
-"http://api.openweathermap.org/data/2.5/forecast/daily?lat=44.34&lon=10.99&cnt=7&appid=c8cc486e034609223b1c1970df0b8ef2"
+// "http://api.openweathermap.org/data/2.5/forecast/daily?lat=44.34&lon=10.99&cnt=7&appid=c8cc486e034609223b1c1970df0b8ef2"
 
-api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid={API key}
+// api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid={API key}
 
+// let iconUrl = "https://openweathermap.org/img/wn/" + data.weather[0].icon + ".png"
