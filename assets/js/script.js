@@ -127,15 +127,15 @@ function searchForecast(lat,lon) {
       // console.log(data.daily)
       let forecastArr = data.daily
       for (let i = 0; i < 5; i++) {
-        let upComingDate = dayjs().fromNow()
-        console.log(upComingDate )
+        // let upComingDate = dayjs().fromNow()
+        // console.log(upComingDate )
        let theCard = document.createElement('div')
        theCard.classList.add('card', 'col-2', 'bg-dark-subtle')
        let cardBody = document.createElement('div')
        cardBody.classList.add('card-body')
        
        let smallDate = document.createElement('h4')
-       smallDate.textContent = upComingDate
+      //  smallDate.textContent = upComingDate
        let smallIcon = document.createElement('img')
        smallIcon.setAttribute('src',"https://openweathermap.org/img/wn/" + forecastArr[i].weather[0].icon + ".png" )
        let smallTemp = document.createElement('div')
