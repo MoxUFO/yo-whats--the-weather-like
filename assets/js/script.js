@@ -2,6 +2,7 @@ let locationButton = document.getElementById("button-parent");
 let upcomingweather = document.getElementById("card-parent");
 let currentWeather = document.getElementById('current-day');
 let displayDate = document.getElementById('display-date')
+let test = document.getElementById('test')
 
 displayDate.textContent =dayjs().format("dddd, MMMM D YYYY");
 
@@ -19,19 +20,41 @@ function handleFormSubmit(event) {
 }
 
 function saveCity(city){
- 
+  let locationQuery = document.getElementById("location-input").value.trim()
   let storedLocation = JSON.parse(localStorage.getItem("query"));
+ 
   if (!storedLocation) {
     storedLocation = [];
   }
-  storedLocation.push(city);
-  localStorage.setItem("query", JSON.stringify(storedLocation));
-  locationButton.textContent = ""
-  displayHistory()
+  if (storedLocation.includes(locationQuery)){
+    return
+  }
+
+  let geoFinderUrl =
+  "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid=c8cc486e034609223b1c1970df0b8ef2";
+  fetch(geoFinderUrl)
+  .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      if (data.length == 0) {
+        // alert("please enter a valid city name");
+        // console.log(locationButton.children)
+    
+        return;
+      } else{
+        storedLocation.push(city);
+        localStorage.setItem("query", JSON.stringify(storedLocation));
+        locationButton.textContent = ""
+        displayHistory()
+      }
+    })
+ 
 }
 
 function displayHistory() {
   let storedLocation = JSON.parse(localStorage.getItem("query"));
+
   if(!storedLocation){
     return
   }
@@ -60,7 +83,7 @@ function getCoordinates(city) {
     .then(function (data) {
       if (data.length == 0) {
         // alert("please enter a valid city name");
-        console.log(locationButton.children[8])
+        // console.log(locationButton.children)
     
         return;
       }
@@ -104,12 +127,6 @@ function searchCurrentWeather(lat,lon) {
       currentWeather.append(bigHumid)
       currentWeather.classList.add()
 
-      
-      setInterval(function () {
-        ;
-        
-      }, 1000);
-
 
 
       upcomingweather.innerHTML = " ";
@@ -124,18 +141,22 @@ function searchForecast(lat,lon) {
       return response.json();
     })
     .then(function (data) {
-      // console.log(data.daily)
+      for (let i = 0; i < 8; i+=2) {
+    
+        console.log(data.daily)
+      }
       let forecastArr = data.daily
       for (let i = 0; i < 5; i++) {
-        // let upComingDate = dayjs().fromNow()
-        // console.log(upComingDate )
+        let upComingDate = dayjs().day(i + 1).$d.toString().split(':')[0].split(' ').slice(1,3)
+        let showYear = dayjs().day(i + 1).$y
+        // console.log(showYear)
        let theCard = document.createElement('div')
        theCard.classList.add('card', 'col-2', 'bg-dark-subtle')
        let cardBody = document.createElement('div')
        cardBody.classList.add('card-body')
        
        let smallDate = document.createElement('h4')
-      //  smallDate.textContent = upComingDate
+       smallDate.textContent = upComingDate + ' ' + showYear
        let smallIcon = document.createElement('img')
        smallIcon.setAttribute('src',"https://openweathermap.org/img/wn/" + forecastArr[i].weather[0].icon + ".png" )
        let smallTemp = document.createElement('div')
