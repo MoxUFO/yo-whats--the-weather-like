@@ -26,7 +26,7 @@ The user input can be used to search a specific locaion by city or state. Pressi
 
 ![Screenshot 2023-03-07 225431](https://user-images.githubusercontent.com/121896793/223616130-98479a8b-19cc-4cf3-ad55-03164f52137f.png)
 
-##link to live site.
+## link to live site.
 
-
+https://moxufo.github.io/yo-whats--the-weather-like/
 
