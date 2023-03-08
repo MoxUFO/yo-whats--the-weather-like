@@ -3,10 +3,11 @@ let upcomingweather = document.getElementById("card-parent");
 let currentWeather = document.getElementById('current-day');
 let displayDate = document.getElementById('display-date')
 let test = document.getElementById('test')
+let clearMemory = document.getElementById('clear-memory')
 
 displayDate.textContent =dayjs().format("dddd, MMMM D YYYY");
 
-function handleFormSubmit(event) {
+function handleFormSubmit(event) {// this functions handles infortion user does or doesnt input
   event.preventDefault();  
   let locationQuery = document.getElementById("location-input").value.trim()
   if(!locationQuery){
@@ -16,10 +17,10 @@ function handleFormSubmit(event) {
   
   getCoordinates(locationQuery)
   saveCity(locationQuery)
-    
+  document.getElementById("location-input").value = '';  
 }
 
-function saveCity(city){
+function saveCity(city){//this functions saved searched loction in the local storage with a valid inpit checker starting on line 34
   let locationQuery = document.getElementById("location-input").value.trim()
   let storedLocation = JSON.parse(localStorage.getItem("query"));
  
@@ -29,7 +30,8 @@ function saveCity(city){
   if (storedLocation.includes(locationQuery)){
     return
   }
-
+//code lines 34-49 checks if the input is a valid selection and if it is it will proceed to save the information to local storage
+//ending if the selection is invalid
   let geoFinderUrl =
   "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid=c8cc486e034609223b1c1970df0b8ef2";
   fetch(geoFinderUrl)
@@ -51,15 +53,15 @@ function saveCity(city){
     })
  
 }
-
-function displayHistory() {
+let pastSearchBtn;
+function displayHistory() {// this function take the locations saved in local storage and makes a button out of each entry.
   let storedLocation = JSON.parse(localStorage.getItem("query"));
 
-  if(!storedLocation){
+  if(!storedLocation){    
     return
   }
   for (let i = 0; i < storedLocation.length; i++) {
-    let pastSearchBtn = document.createElement("button");
+    pastSearchBtn = document.createElement("button");
     pastSearchBtn.classList.add("btn",'btn-outline-info');
     pastSearchBtn.textContent = storedLocation[i];
     locationButton.append(pastSearchBtn);
@@ -67,12 +69,21 @@ function displayHistory() {
    
   }
 }
+//this function deletes all location searches from the local storage and clears the past search buutons
+clearMemory.addEventListener('click', function(event){
+  event.preventDefault()
+  localStorage.clear('query')
+  locationButton.innerHTML = ""
+})
 
+ 
+// this function takes the past location search button and reruns the funcions that searches and displays a locations weather
 function presentLastSearch(event){
   let reuseCity = event.target.textContent
   getCoordinates(reuseCity)
 }
 
+//this function gets the user input and conects the query to a set of coordenates
 function getCoordinates(city) {
   let geoFinderUrl =
   "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid=c8cc486e034609223b1c1970df0b8ef2";
@@ -100,6 +111,7 @@ function getCoordinates(city) {
     });
 }
 
+//this funtion displays infortion on the current days weather
 function searchCurrentWeather(lat,lon) {
   // console.log(lat, lon)
   let queryUrl = "http://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" + lat + "&lon=" + lon + "&appid=c8cc486e034609223b1c1970df0b8ef2";
@@ -133,6 +145,7 @@ function searchCurrentWeather(lat,lon) {
     })
 }
 
+//this funtion displays the 5 days forcast information
 function searchForecast(lat,lon) {
   // console.log(lat, lon)
   let queryUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat +'&lon=' + lon + '&Appid=d788f32e8b9da745fbd42aba6ed8176a&units=imperial' 
@@ -147,7 +160,7 @@ function searchForecast(lat,lon) {
       }
       let forecastArr = data.daily
       for (let i = 0; i < 5; i++) {
-        let upComingDate = dayjs().day(i + 1).$d.toString().split(':')[0].split(' ').slice(1,3)
+        let upComingDate = dayjs().day(i + 3).$d.toString().split(':')[0].split(' ').slice(1,3)
         let showYear = dayjs().day(i + 1).$y
         // console.log(showYear)
        let theCard = document.createElement('div')
@@ -159,6 +172,7 @@ function searchForecast(lat,lon) {
        smallDate.textContent = upComingDate + ' ' + showYear
        let smallIcon = document.createElement('img')
        smallIcon.setAttribute('src',"https://openweathermap.org/img/wn/" + forecastArr[i].weather[0].icon + ".png" )
+       
        let smallTemp = document.createElement('div')
        smallTemp.textContent = 'Temp: ' + forecastArr[i].temp.day
        let smallWind = document.createElement('div')
@@ -179,4 +193,3 @@ function searchForecast(lat,lon) {
 
 document.getElementById("submit-button").addEventListener("click", handleFormSubmit);
 displayHistory();
-

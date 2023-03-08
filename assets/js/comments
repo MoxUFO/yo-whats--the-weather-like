@@ -14,3 +14,12 @@
 // api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid={API key}
 
 // let iconUrl = "https://openweathermap.org/img/wn/" + data.weather[0].icon + ".png"
+
+// document.getElementById("location-input").value = '';
+
+// clearMemory.addEventListener("click", function (event) {
+//     event.preventDefault
+//     localStorage.clear('query');
+//     displayHistory()
+//   });
+
