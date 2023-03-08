@@ -33,7 +33,7 @@ function saveCity(city){//this functions saved searched loction in the local sto
 //code lines 34-49 checks if the input is a valid selection and if it is it will proceed to save the information to local storage
 //ending if the selection is invalid
   let geoFinderUrl =
-  "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid=c8cc486e034609223b1c1970df0b8ef2";
+  "https://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid=c8cc486e034609223b1c1970df0b8ef2";
   fetch(geoFinderUrl)
   .then(function (response) {
       return response.json();
@@ -86,7 +86,7 @@ function presentLastSearch(event){
 //this function gets the user input and conects the query to a set of coordenates
 function getCoordinates(city) {
   let geoFinderUrl =
-  "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid=c8cc486e034609223b1c1970df0b8ef2";
+  "https://api.openweathermap.org/geo/1.0/direct?q="+city+"&limit=5&appid=c8cc486e034609223b1c1970df0b8ef2";
   fetch(geoFinderUrl)
   .then(function (response) {
       return response.json();
@@ -114,7 +114,7 @@ function getCoordinates(city) {
 //this funtion displays infortion on the current days weather
 function searchCurrentWeather(lat,lon) {
   // console.log(lat, lon)
-  let queryUrl = "http://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" + lat + "&lon=" + lon + "&appid=c8cc486e034609223b1c1970df0b8ef2";
+  let queryUrl = "https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" + lat + "&lon=" + lon + "&appid=c8cc486e034609223b1c1970df0b8ef2";
   fetch(queryUrl)
   .then(function (response) {
       return response.json();
